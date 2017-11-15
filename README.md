@@ -9,7 +9,7 @@ In this project assignment [1] of Udacity's self-driving car Nanodegree, Tensorf
 
 The figures of traffic sign that are provided by Udacity are unevenly distributed between different types (Figure 1). Train, valid and test sets have same problem, which will worsen the training. However, they cannot be balanced because it will lead small samples. 
 
-<center>![Potencies of Sets for Train](./WriteUpMarkDownFiles/image001.png)</center>
+<center> ![Potencies of Sets for Train](./WriteUpMarkDownFiles/image001.png) </center>
 
 <center>Potencies of Sets for Train</center>
 
