@@ -62,15 +62,15 @@ Figure 9: Average SoftMax for Every Class in Test Set
 5.	Testing Model with Outside Images
 The truth that the neural network remembers most of traffic signs from the training set does not mean it will recognize the traffic signs from another database. We choose five traffic signs (Figure 10) from the Internet whose average SoftMax is lowest in Figure 9. The nature network recognizes four of them, but a Class 24 successfully confuses the neural network (Figure 11). 
 
-![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image013.png)
+![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image013.jpg)
 
-![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image014.png)
+![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image014.jpg)
 
-![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image015.png)
+![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image015.jpg)
 
-![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image016.png)
+![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image016.jpg)
 
-![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image017.png)
+![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image017.jpg)
 
 Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)
 
