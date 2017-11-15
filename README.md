@@ -20,16 +20,19 @@ In the real word, one cannot expect the traffic sign stays at the middle of hori
 Figure 2: Before and After White Balance
 
 ![Figure 3: Before and After Color Segmentation (A)](./WriteUpMarkDownFiles/image003.png)
+
 ![Figure 3: Before and After White Balance (B)](./WriteUpMarkDownFiles/image004.png)
 
 Figure 3: Before and After Color Segmentation (A)(B)
 
 ![Figure 4: Before and After Cluster Based Segmentation (A)](./WriteUpMarkDownFiles/image005.png)
+
 ![Figure 4: Before and After Cluster Based Segmentation (B)](./WriteUpMarkDownFiles/image006.png)
 
 Figure 4: Before and After Cluster Based Segmentation (A)(B)
 
 ![Figure 5: A Bad Segmentation (A)](./WriteUpMarkDownFiles/image007.png)
+
 ![Figure 5: A Bad Segmentation (B)](./WriteUpMarkDownFiles/image008.png)
 
 Figure 5: A Bad Segmentation (A)(B)
@@ -60,9 +63,13 @@ Figure 9: Average SoftMax for Every Class in Test Set
 The truth that the neural network remembers most of traffic signs from the training set does not mean it will recognize the traffic signs from another database. We choose five traffic signs (Figure 10) from the Internet whose average SoftMax is lowest in Figure 9. The nature network recognizes four of them, but a Class 24 successfully confuses the neural network (Figure 11). 
 
 ![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image013.png)
+
 ![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image014.png)
+
 ![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image015.png)
+
 ![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image016.png)
+
 ![Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)](./WriteUpMarkDownFiles/image017.png)
 
 Figure 10: Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)
