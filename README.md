@@ -1,125 +1,58 @@
-<div class="WordSection1" style="layout-grid:15.6pt">
+## Project: Build a Traffic Sign Recognition Program
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-<a name="_Hlk498509745"></a><span lang="EN-US" style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:&#10;"Times New Roman"'><span style="mso-list:Ignore">1.<span style='font:7.0pt "Times New Roman"'></span> </span></span><span lang="EN-US">Introduction</span>
+Overview
+---
+In this project, you will use what you've learned about deep neural networks and convolutional neural networks to classify traffic signs. You will train and validate a model so it can classify traffic sign images using the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset). After the model is trained, you will then try out your model on images of German traffic signs that you find on the web.
 
-<span lang="EN-US">In this project assignment</span> <span lang="EN-US"><span style="mso-no-proof:yes">[1]</span></span> <span lang="EN-US">of Udacity's self-driving car Nanodegree, Tensorflow</span> <span lang="EN-US"><span style="mso-no-proof:yes">[2]</span></span> <span lang="EN-US">and MATLAB</span> <span lang="EN-US"><span style="mso-no-proof:yes">[3]</span></span> <span lang="EN-US">are used together to build a convolutional neural network for classifying traffic signs of German Traffic Sign Dataset</span> <span lang="EN-US"><span style="mso-no-proof:yes">[4]</span></span><span lang="EN-US">. The accuracy on the validation set is 95.6%, and the test accuracy is 94.4%. Based on the output of Softmax</span> <span lang="EN-US"><span style="mso-no-proof:yes">[5]</span></span> <span lang="EN-US">function, five most easily confused figures are chosen from the Internet. The neural network recognizes four but makes a serious mistake on one.</span>
+We have included an Ipython notebook that contains further instructions 
+and starter code. Be sure to download the [Ipython notebook](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb). 
 
-<span lang="EN-US"></span>
+We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
 
-<span lang="EN-US" style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:&#10;"Times New Roman"'><span style="mso-list:Ignore">2.<span style='font:7.0pt "Times New Roman"'></span> </span></span><span lang="EN-US">Preprocessing Dataset</span>
+To meet specifications, the project will require submitting three files: 
+* the Ipython notebook with the code
+* the code exported as an html file
+* a writeup report either as a markdown or pdf file 
 
-<span lang="EN-US">The figures of traffic sign that are provided by Udacity are unevenly distributed between different types (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">1</span></span><span lang="EN-US"></span><span lang="EN-US">). Train, valid and test sets have same problem, which will worsen the training. However, they cannot be balanced because it will lead small samples.</span>
+Creating a Great Writeup
+---
+A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/481/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
 
-<span lang="EN-US" style="mso-no-proof:yes"><v:shapetype id="_x0000_t75" stroked="f" filled="f" path="m@4@5l@4@11@9@11@9@5xe" o:preferrelative="t" o:spt="75" coordsize="21600,21600"><v:stroke joinstyle="miter"><v:formulas></v:formulas><v:path o:connecttype="rect" gradientshapeok="t" o:extrusionok="f"></v:path></v:stroke></v:shapetype><v:shape id="图片_x0020_3" style="width:267.75pt;height:200.25pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1042"><v:imagedata o:title="" src="WriteUp.files/image001.png"></v:imagedata></v:shape></span>
+All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
 
-<a name="_Ref498434453"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498434453"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">1</span></span></span><span style="mso-bookmark:_Ref498434453"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'></span>
+You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
 
-<span lang="EN-US"><span style="mso-tab-count:1"></span> In the real word, one cannot expect the traffic sign stays at the middle of horizon; furthermore, the background will mislead the neural network. Self-driving cars should find where the sign is at the first place. Luckily, traffic signs are designed to have special color in appropriate light condition. So, the first job is to guess the illuminate condition of each figure</span> <span lang="EN-US"><span style="mso-no-proof:yes">[6]</span></span><span lang="EN-US">; then we balance the white so that they have right color (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">2</span></span><span lang="EN-US"></span><span lang="EN-US">). After that, we use the standard color to segment the figure which successfully finds half of traffic signs (17,805 successes VS. 16,994 failures in train database,</span> <span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">3</span></span><span lang="EN-US"></span><span lang="EN-US">). The rest figures should have bad colors. Despite the color is error, the entire traffic sign should contain similar color. So, we class the rest figures with cluster analysis</span> <span lang="EN-US"><span style="mso-no-proof:yes">[7]</span></span><span lang="EN-US">, which gives other 13,083 successes (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">4</span></span><span lang="EN-US"></span><span lang="EN-US">). The last 3911 failures are in serious condition. At last, The Marker-Controlled Watershed Segmentation</span> <span lang="EN-US"><span style="mso-no-proof:yes">[8]</span></span> <span lang="EN-US">is used for gray-scale figures; however, there still have 3472 figures cannot be found traffic signs. These figures are supported to have a traffic sign at the middle of horizon. All masks are used in classification are circle, which will not mislead the train procedure. Entire procedure will inaccurately segment some figures (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">5</span></span><span lang="EN-US"></span><span lang="EN-US">).</span>
+The Project
+---
+The goals / steps of this project are the following:
+* Load the data set
+* Explore, summarize and visualize the data set
+* Design, train and test a model architecture
+* Use the model to make predictions on new images
+* Analyze the softmax probabilities of the new images
+* Summarize the results with a written report
 
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_4" style="width:321pt;height:159.75pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1041"><v:imagedata o:title="" src="WriteUp.files/image002.png" cropright="6268f" cropleft="8649f" cropbottom="17037f" croptop="14810f"></v:imagedata></v:shape></span>
+### Dependencies
+This lab requires:
 
-<a name="_Ref498510460"></a><a name="_Ref498510472"><span style="mso-bookmark:&#10;_Ref498510460"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </span></a><span style="mso-bookmark:_Ref498510472"><span style="mso-bookmark:_Ref498510460"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:&#10;yes">2</span></span></span></span><span style="mso-bookmark:&#10;_Ref498510472"><span style="mso-bookmark:_Ref498510460"></span></span><span style="mso-bookmark:_Ref498510460"><span lang="EN-US" style='font-family:"Times New Roman",serif'>:<span style="mso-no-proof:yes">Before and After White Balance</span></span></span><span lang="EN-US" style='font-family:"Times New Roman",serif'></span>
+* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
 
-<span lang="EN-US"></span>
+The lab environment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
 
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_9" style="width:159pt;&#10; height:159.75pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1040" alt="图片包含 建筑物&#10;&#10;已生成高可信度的说明"><v:imagedata o:title="图片包含 建筑物&#10;&#10;已生成高可信度的说明" src="WriteUp.files/image003.png" cropright="11609f" cropleft="13907f" cropbottom="7200f" croptop="4635f"></v:imagedata></v:shape><v:shape id="图片_x0020_10" style="width:160.5pt;height:162pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1039"><v:imagedata o:title="" src="WriteUp.files/image004.png" cropright="11694f" cropleft="13993f" cropbottom="7309f" croptop="4861f"></v:imagedata></v:shape></span>
+### Dataset and Repository
 
-<a name="_Ref498510557"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498510557"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">3</span></span></span><span style="mso-bookmark:_Ref498510557"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'>:<span style="mso-no-proof:yes">Before and After Color Segmentation</span></span>
+1. Download the data set. The classroom has a link to the data set in the "Project Instructions" content. This is a pickled dataset in which we've already resized the images to 32x32. It contains a training, validation and test set.
+2. Clone the project, which contains the Ipython notebook and the writeup template.
+```sh
+git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
+cd CarND-Traffic-Sign-Classifier-Project
+jupyter notebook Traffic_Sign_Classifier.ipynb
+```
 
-<span lang="EN-US"></span>
+### Requirements for Submission
+Follow the instructions in the `Traffic_Sign_Classifier.ipynb` notebook and write the project report using the writeup template as a guide, `writeup_template.md`. Submit the project code and writeup document.
 
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_5" style="width:165pt;height:165pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1038"><v:imagedata o:title="" src="WriteUp.files/image005.png" cropright="11609f" cropleft="13991f" cropbottom="7200f" croptop="4974f"></v:imagedata></v:shape><v:shape id="图片_x0020_6" style="width:164.25pt;height:165.75pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1037"><v:imagedata o:title="" src="WriteUp.files/image006.png" cropright="11609f" cropleft="14077f" cropbottom="7309f" croptop="4861f"></v:imagedata></v:shape></span>
+## How to write a README
+A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
-<a name="_Ref498524220"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498524220"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">4</span></span></span><span style="mso-bookmark:_Ref498524220"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'>:<span style="mso-no-proof:yes">Before and After</span> Cluster</span> <span lang="EN-US" style='font-size:10.5pt;font-family:"Times New Roman",serif;&#10;mso-fareast-font-family:宋体'>Based Segmentation</span><span lang="EN-US" style='font-family:"Times New Roman",serif'></span>
-
-<span lang="EN-US"></span>
-
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_7" style="width:164.25pt;height:163.5pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1036"><v:imagedata o:title="" src="WriteUp.files/image007.png" cropright="11544f" cropleft="14093f" cropbottom="7465f" croptop="4980f"></v:imagedata></v:shape><v:shape id="图片_x0020_8" style="width:164.25pt;height:165pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1035"><v:imagedata o:title="" src="WriteUp.files/image008.png" cropright="11629f" cropleft="14009f" cropbottom="7463f" croptop="4754f"></v:imagedata></v:shape></span>
-
-<a name="_Ref498524954"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498524954"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">5</span></span></span><span style="mso-bookmark:_Ref498524954"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'>:<span style="mso-no-proof:yes">A Bad Segmentation</span></span>
-
-<span lang="EN-US"></span>
-
-<span lang="EN-US" style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:&#10;"Times New Roman"'><span style="mso-list:Ignore">3.<span style='font:7.0pt "Times New Roman"'></span> </span></span><span lang="EN-US">Model Design</span>
-
-<span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN">Based on the successful experience on MNIST</span> <span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:&#10;EN"><span style="mso-no-proof:yes">[9]</span></span> <span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:&#10;EN">tasks, a filter with size 5*5*1*6 are used for</span> <span lang="EN-US">gray-scale</span> <span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;&#10;mso-ansi-language:EN">figures; then, a filter with size 5*5*3*9 are used for RGB figures for there are there kinds of colors. All these are combined to form 28*28*15 outputs, then they are down-sampled to 14*14*15 and filled in another</span> <span lang="EN-US">convolutional</span> <span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN">layer with 10*10*27 outputs.</span> <span lang="EN-US">These outputs are down-sampled again to 5*5*27\. After three full-connected layers, which are 675*516, 516*362 and 362*43, they give logits. Active functions are all sigmoid.</span>
-
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_11" style="width:414.75pt;height:387.75pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1034"><v:imagedata o:title="" src="WriteUp.files/image009.png"></v:imagedata></v:shape></span>
-
-<span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> <span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:&#10;yes">6</span></span><span lang="EN-US" style='font-family:"Times New Roman",serif'>: Data Flow <span style="mso-no-proof:yes">Graph</span></span><span lang="EN" style='font-family:&#10;"Times New Roman",serif;color:black;mso-ansi-language:EN'></span>
-
-<span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN"></span>
-
-<span lang="EN-US" style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:&#10;"Times New Roman"'><span style="mso-list:Ignore">4.<span style='font:7.0pt "Times New Roman"'></span> </span></span><span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN">Training, Validating and Testing Model</span>
-
-<span lang="EN-US">The</span> <span lang="EN" style="mso-bidi-font-family:&#10;Helvetica;color:black;mso-ansi-language:EN">training procedure collects 128 samples at a time from the randomly shuffled database; then it minimizes the SoftMax cross entropy by Adam optimized (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">7</span></span><span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN"></span><span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:&#10;EN">). After all the samples are used, it calculates the</span> <span lang="EN-US">accuracy on the validation set.</span> <span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:EN">This procedure repeats 41 times leads the validation accuracy reaches 95.6% (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">8</span></span><span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN"></span><span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:&#10;EN">). The test set is used once that gives the accuracy 94.4%. The average SoftMax for every class in test set is recorded. As we can see, the average SoftMax shows the</span> <span lang="EN-US">neural network</span> <span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:EN">will remember the traffic sign (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">9</span></span><span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN"></span><span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:&#10;EN">).</span>
-
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_13" style="width:243pt;height:189.75pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1033"><v:imagedata o:title="" src="WriteUp.files/image010.png" cropright="3985f" cropleft="5773f" cropbottom="3617f" croptop="3736f"></v:imagedata></v:shape></span>
-
-<a name="_Ref498526599"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498526599"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">7</span></span></span><span style="mso-bookmark:_Ref498526599"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'>:Variation of Cross Entropy</span>
-
-<span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN"></span>
-
-<span lang="EN" style="mso-bidi-font-family:Helvetica;color:black;mso-ansi-language:&#10;EN;mso-no-proof:yes"><v:shape id="图片_x0020_12" style="width:239.25pt;height:185.25pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1032"><v:imagedata o:title="" src="WriteUp.files/image011.png" cropright="5076f" cropleft="4500f" cropbottom="3724f" croptop="4075f"></v:imagedata></v:shape></span>
-
-<a name="_Ref498526557"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498526557"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">8</span></span></span><span style="mso-bookmark:_Ref498526557"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif;mso-no-proof:yes'>: Variation of</span> <span lang="EN-US" style='font-size:10.5pt;font-family:"Times New Roman",serif;&#10;mso-fareast-font-family:宋体'>accuracy</span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'></span>
-
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_14" style="width:417.75pt;height:239.25pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1031"><v:imagedata o:title="" src="WriteUp.files/image012.png" cropright="5687f" cropleft="6961f" cropbottom="4475f" croptop="3836f"></v:imagedata></v:shape></span>
-
-<a name="_Ref498527105"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498527105"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">9</span></span></span><span style="mso-bookmark:_Ref498527105"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'>: Average SoftMax for Every Class in Test Set</span>
-
-<span lang="EN-US"></span>
-
-<span lang="EN-US" style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:&#10;"Times New Roman"'><span style="mso-list:Ignore">5.<span style='font:7.0pt "Times New Roman"'></span> </span></span><span lang="EN" style="mso-bidi-font-family:Helvetica;&#10;color:black;mso-ansi-language:EN">Testing Model with Outside Images</span>
-
-<span lang="EN-US">The truth that the neural network remembers most of traffic signs from the training set does not mean it will recognize the traffic signs from another database. We choose five traffic signs (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">10</span></span><span lang="EN-US"></span><span lang="EN-US">) from the Internet whose average</span> <span lang="EN" style="mso-bidi-font-family:&#10;Helvetica;color:black;mso-ansi-language:EN">SoftMax</span> <span lang="EN-US">is lowest in</span> <span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">9</span></span><span lang="EN-US"></span><span lang="EN-US">. The nature network recognizes four of them, but <span style="mso-no-proof:yes">a Class 24</span> successfully confuses the neural network (</span><span lang="EN-US" style='mso-bidi-font-family:"Times New Roman"'>Figure <span style="mso-no-proof:&#10;yes">11</span></span><span lang="EN-US"></span><span lang="EN-US">).</span>
-
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_15" style="width:58.5pt;height:58.5pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1030"><v:imagedata o:title="" src="WriteUp.files/image013.jpg"></v:imagedata></v:shape><v:shape id="图片_x0020_16" style="width:60pt;height:58.5pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1029"><v:imagedata o:title="" src="WriteUp.files/image014.jpg"></v:imagedata></v:shape><v:shape id="图片_x0020_17" style="width:72.75pt;height:56.25pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1028"><v:imagedata o:title="" src="WriteUp.files/image015.jpg"></v:imagedata></v:shape><v:shape id="图片_x0020_18" style="width:64.5pt;height:57pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1027"><v:imagedata o:title="" src="WriteUp.files/image016.jpg"></v:imagedata></v:shape><v:shape id="图片_x0020_19" style="width:63pt;height:62.25pt;visibility:visible;mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1026"><v:imagedata o:title="" src="WriteUp.files/image017.jpg"></v:imagedata></v:shape></span>
-
-<a name="_Ref498527699"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498527699"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">10</span></span></span><span style="mso-bookmark:_Ref498527699"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'>: <span style="mso-no-proof:yes">Chosen five most uncertain signs (Class 11, 18, 24, 27 and 30)</span></span>
-
-<span lang="EN-US" style="mso-no-proof:yes"><v:shape id="图片_x0020_20" style="width:343.5pt;height:282.75pt;visibility:visible;&#10; mso-wrap-style:square" type="#_x0000_t75" o:spid="_x0000_i1025"><v:imagedata o:title="" src="WriteUp.files/image018.png" cropright="5687f" cropleft="5603f" cropbottom="3734f" croptop="2264f"></v:imagedata></v:shape></span>
-
-<a name="_Ref498528500"><span lang="EN-US" style='font-family:"Times New Roman",serif'>Figure</span> </a><span style="mso-bookmark:_Ref498528500"><span lang="EN-US" style='font-family:"Times New Roman",serif'><span style="mso-no-proof:yes">11</span></span></span><span style="mso-bookmark:_Ref498528500"></span><span lang="EN-US" style='font-family:&#10;"Times New Roman",serif'>: <span style="mso-no-proof:yes">SoftMax Output for Five Chosen Figures. A Class 24</span> confuses the neural network.</span>
-
-<span lang="EN-US"></span>
-
-<span lang="EN-US" style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:&#10;"Times New Roman"'><span style="mso-list:Ignore">6.<span style='font:7.0pt "Times New Roman"'></span> </span></span><span lang="EN-US">Discussion</span>
-
-<span lang="EN-US">The Tensorflow and MATLAB are powerful tools for machine learning. However, there lacks a mathematic explication that how many nerve cells should be used and why this structure is better than another. If we follow the instruction from the successful case, e.g.</span> <span lang="EN-US"><span style="mso-no-proof:yes">[10]</span></span><span lang="EN-US">. It is likely to have similar conclusion. But, a mathematic proven will certainly make the natural network more reliable.</span>
-
-<span lang="EN-US"></span>
-
-<span lang="EN-US" style='mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:&#10;"Times New Roman"'><span style="mso-list:Ignore">7.<span style='font:7.0pt "Times New Roman"'></span> </span></span><span lang="EN-US">Acknowledgements</span>
-
-<span lang="EN-US">The authors would like to thank the program</span> <span lang="EN-US"><span style="mso-no-proof:yes">[11]</span></span> <span lang="EN-US">which can solve Minimum Boundary Circle problem.</span>
-
-<span lang="EN-US"></span>
-
-<span lang="EN-US">References</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:12.0pt;mso-bidi-font-family:&#10;"Times New Roman";mso-font-kerning:0pt;mso-no-proof:yes'>[1]<span style="mso-tab-count:1"></span> Udacity, “Project: Build a Traffic Sign Recognition Program.” [Online]. Available: https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[2]<span style="mso-tab-count:1"></span> Google, “TensorFlow.” [Online]. Available: https://www.tensorflow.org/.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[3]<span style="mso-tab-count:1"></span> MathWorks, “MATLAB.” [Online]. Available: https://www.mathworks.com/.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[4]<span style="mso-tab-count:1"></span> “German Traffic Sign Dataset.” [Online]. Available: http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[5]<span style="mso-tab-count:1"></span> Google, “tf.nn.softmax.” [Online]. Available: https://www.tensorflow.org/api_docs/python/tf/nn/softmax.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[6]<span style="mso-tab-count:1"></span> MathWorks, “Comparison of Auto White Balance Algorithms.” [Online]. Available: https://cn.mathworks.com/help/images/examples/comparison-of-auto-white-balance-algorithms.html.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[7]<span style="mso-tab-count:1"></span> MathWorks, “Image Segmentation Using the Image Segmenter App.” [Online]. Available: https://cn.mathworks.com/help/images/image-segmentation-using-the-image-segmenter-app.html.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[8]<span style="mso-tab-count:1"></span> MathWorks, “Marker-Controlled Watershed Segmentation.” [Online]. Available: https://cn.mathworks.com/help/images/examples/marker-controlled-watershed-segmentation.html.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[9]<span style="mso-tab-count:1"></span> “CarND-LeNet-Lab.” [Online]. Available: https://github.com/BlueBirdHouse/CarND-LeNet-Lab.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[10]<span style="mso-tab-count:1"></span> P. Sermanet and Y. LeCun, “Traffic sign recognition with multi-scale Convolutional Networks,” in _The 2011 International Joint Conference on Neural Networks_, 2011, pp. 2809–2813.</span>
-
-<span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:&#10;12.0pt;mso-bidi-font-family:"Times New Roman";mso-font-kerning:0pt;mso-no-proof:&#10;yes'>[11]<span style="mso-tab-count:1"></span> A. Semechko, “Exact minimum bounding spheres/circles.” [Online]. Available: https://cn.mathworks.com/matlabcentral/fileexchange/48725-exact-minimum-bounding-spheres-circles.</span><span lang="EN-US" style='font-size:10.0pt;mso-bidi-font-size:10.5pt;mso-bidi-font-family:&#10;"Times New Roman";mso-no-proof:yes'></span>
-
-<span lang="EN-US"></span>
-
-</div>
