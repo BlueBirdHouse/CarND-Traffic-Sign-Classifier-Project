@@ -82,18 +82,30 @@ Figure 11: SoftMax Output for Five Chosen Figures. A Class 24 confuses the neura
 The Tensorflow and MATLAB are powerful tools for machine learning. However, there lacks a mathematic explication that how many nerve cells should be used and why this structure is better than another. If we follow the instruction from the successful case, e.g. [10]. It is likely to have similar conclusion. But, a mathematic proven will certainly make the natural network more reliable. 
 
 7.	Acknowledgements
+
 The authors would like to thank the program [11] which can solve Minimum Boundary Circle problem.
 
 References
+
 [1]	Udacity, “Project: Build a Traffic Sign Recognition Program.” [Online]. Available: https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project.
+
 [2]	Google, “TensorFlow.” [Online]. Available: https://www.tensorflow.org/.
+
 [3]	MathWorks, “MATLAB.” [Online]. Available: https://www.mathworks.com/.
+
 [4]	“German Traffic Sign Dataset.” [Online]. Available: http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset.
+
 [5]	Google, “tf.nn.softmax.” [Online]. Available: https://www.tensorflow.org/api_docs/python/tf/nn/softmax.
+
 [6]	MathWorks, “Comparison of Auto White Balance Algorithms.” [Online]. Available: https://cn.mathworks.com/help/images/examples/comparison-of-auto-white-balance-algorithms.html.
+
 [7]	MathWorks, “Image Segmentation Using the Image Segmenter App.” [Online]. Available: https://cn.mathworks.com/help/images/image-segmentation-using-the-image-segmenter-app.html.
+
 [8]	MathWorks, “Marker-Controlled Watershed Segmentation.” [Online]. Available: https://cn.mathworks.com/help/images/examples/marker-controlled-watershed-segmentation.html.
+
 [9]	“CarND-LeNet-Lab.” [Online]. Available: https://github.com/BlueBirdHouse/CarND-LeNet-Lab.
+
 [10]	P. Sermanet and Y. LeCun, “Traffic sign recognition with multi-scale Convolutional Networks,” in The 2011 International Joint Conference on Neural Networks, 2011, pp. 2809–2813.
+
 [11]	A. Semechko, “Exact minimum bounding spheres/circles.” [Online]. Available: https://cn.mathworks.com/matlabcentral/fileexchange/48725-exact-minimum-bounding-spheres-circles.
 
